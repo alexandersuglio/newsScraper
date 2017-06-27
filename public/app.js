@@ -31,3 +31,5 @@ $('#scrapeIt').on('click', function() {
 
     $.getJSON('/scrape');
 });
+
+
