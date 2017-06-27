@@ -19,19 +19,23 @@ var PORT = process.env.PORT || 3000;
 
 app.use(bodyParser.urlencoded({ extended: true }));
 
-if (process.env.MONGODB_URI){
-	mongojs(process.env.MONGODB_URI);
-}
-else {
-	// mongojs.connect(databaseUrl);
-var db = mongojs(databaseUrl, collections);
-	
-}
+if (process.env.MONGODB_URI) {
+   var db = mongojs(process.env.MONGODB_URI);
+} else {
+    var db = mongojs(databaseUrl, collections);
 
-
-db.on('error', function(error) {
-    console.log('Database error', error);
+db.on('error', function(err) {
+    console.log('Database error', err);
 });
+
+db.on('connect', function() {
+    console.log('database connected')
+});
+}
+
+
+
+
 
 app.get('/', function(req, res) {
     res.sendFile(path.join(__dirname + '/index.html'));
@@ -59,7 +63,7 @@ app.get('/scrape', function(req, res) {
             var body = $('.trb_ar_page p');
             var bodyText = body.text();
 
-// var id = 4;
+            // var id = 4;
 
             var article = {
                 // id: id,

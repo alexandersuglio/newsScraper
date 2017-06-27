@@ -33,3 +33,5 @@ $('#scrapeIt').on('click', function() {
 });
 
 
+// $ heroku config:get MONGODB_URI
+// mongodb://heroku_t45plb8s:68lu1bj7pqgtot41i25tfprjmi@ds139082.mlab.com:39082/heroku_t45plb8s
