@@ -3,13 +3,11 @@ var app = express();
 var mongojs = require('mongojs');
 var databaseUrl = 'scraper';
 var collections = ['articles'];
-var db = mongojs(databaseUrl, collections);
 
 var request = require('request');
 var cheerio = require('cheerio');
-db.on('error', function(error) {
-    console.log('Database error', error);
-})
+
+
 app.use(express.static("public"));
 var url = ['http://www.latimes.com/business/la-fi-wholefoods-stock-bidding-20170619-story.html', 'http://www.latimes.com/nation/la-na-pol-gop-baseball-shooting-20170614-story.html', 'http://www.latimes.com/local/lanow/la-me-ln-carrie-fisher-autopsy-report-20170619-story.html', 'http://www.latimes.com/local/california/la-me-playboys-church-20170620-story.html'];
 
@@ -21,6 +19,19 @@ var PORT = process.env.PORT || 3000;
 
 app.use(bodyParser.urlencoded({ extended: true }));
 
+if (process.env.MONGODB_URI){
+	mongojs(process.env.MONGODB_URI);
+}
+else {
+	// mongojs.connect(databaseUrl);
+var db = mongojs(databaseUrl, collections);
+	
+}
+
+
+db.on('error', function(error) {
+    console.log('Database error', error);
+});
 
 app.get('/', function(req, res) {
     res.sendFile(path.join(__dirname + '/index.html'));
