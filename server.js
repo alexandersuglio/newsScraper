@@ -72,6 +72,7 @@ app.get('/scrape', function(req, res) {
                 image: imgLink,
                 body: bodyText
             }
+            console.log(article);
 
             var idk = db.articles.insert(article, function(err, doc) {
 
